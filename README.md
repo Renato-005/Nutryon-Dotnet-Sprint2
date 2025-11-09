@@ -10,7 +10,7 @@ O Nutryon é um app que ajuda você a planejar o que comer programando suas refe
   - `GET /api/usuarios/{idUsuario}/refeicoes/search?data=2025-06-10&page=1&pageSize=10`
 - **HATEOAS**: as respostas de busca retornam `_links.self`, `_links.next`, `_links.prev`.
 
-## 2) Conexão com banco (Oracle – padrão *Candidatos*)
+## 2) Conexão com banco (Oracle)
 - `appsettings.json` agora usa `ConnectionStrings:NutryonDb` com o formato:
   ```json
   "User Id=USUARIO;Password=SENHA;Data Source=oracle.fiap.com.br:1521/ORCL;"
