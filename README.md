@@ -28,13 +28,13 @@ Os principais pacotes adicionados/substituídos:
 - `FluentValidation.AspNetCore` (já existia)
 
 ## 4) Como rodar
-1. Configure o usuário e senha Oracle no `src/Nutryon.Api/appsettings.json` (padrão FIAP).
-2. Na raiz do repositório:
+1. Definir Nutryon.Api como projeto de inicialização
+3. Na raiz do repositório:
    ```bash
    dotnet build
    dotnet run --project src/Nutryon.Api/Nutryon.Api.csproj
    ```
-3. Acesse:
+4. Acesse:
    - `http://localhost:5184/swagger`
    - `http://localhost:5184/health/ready`
 
