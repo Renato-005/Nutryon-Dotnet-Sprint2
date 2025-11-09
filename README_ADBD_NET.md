@@ -1,7 +1,8 @@
+# Nutryon
+- Integrantes: Renato | RM560928 / Victor | RM560087
 
-# Nutryon – Entrega "Advanced Business Development with .NET"
-
-Este pacote altera o **Nutryon** para atender aos requisitos apresentados no slide:
+## Objetivo do Projeto
+O Nutryon é um app que ajuda você a planejar o que comer programando suas refeições por dia da semana e calcula automaticamente calorias e macronutrientes (proteínas, carboidratos e gorduras) a partir de um banco de ingredientes cadastrado.
 
 ## 1) Camada Web – Web API / Minimal API
 - **Rotas de *Search*** com paginação, ordenação e filtros:
@@ -12,7 +13,7 @@ Este pacote altera o **Nutryon** para atender aos requisitos apresentados no sli
 ## 2) Conexão com banco (Oracle – padrão *Candidatos*)
 - `appsettings.json` agora usa `ConnectionStrings:NutryonDb` com o formato:
   ```json
-  "User Id=SEU_USUARIO;Password=SUA_SENHA;Data Source=oracle.fiap.com.br:1521/ORCL;"
+  "User Id=USUARIO;Password=SENHA;Data Source=oracle.fiap.com.br:1521/ORCL;"
   ```
 - `Program.cs` foi refeito para `UseOracle(...)` e HealthChecks (`/health/live` e `/health/ready`).
 
@@ -37,8 +38,7 @@ Os principais pacotes adicionados/substituídos:
    - `http://localhost:5184/swagger`
    - `http://localhost:5184/health/ready`
 
-> **Observação**: como a estrutura de *Views MVC* não existia no projeto original, mantivemos a entrega no formato **Web API** com os itens exigidos (Search + HATEOAS + Controllers CRUD). Caso precise da camada **MVC/Bootstrap** também, posso gerar um projeto `Nutryon.Web` (MVC) acoplado a esta API.
-
+> **Observação**: como a estrutura de *Views MVC* não existia no projeto original, mantivemos a entrega no formato **Web API** com os itens exigidos (Search + HATEOAS + Controllers CRUD).
 ## 5) Endpoints principais
 - `POST /api/usuarios`
 - `GET  /api/usuarios`
@@ -48,11 +48,6 @@ Os principais pacotes adicionados/substituídos:
 - `POST /api/usuarios/{idUsuario}/refeicoes`
 - `GET  /api/usuarios/{idUsuario}/refeicoes`
 - `GET  /api/usuarios/{idUsuario}/refeicoes/search`
-
----
-
-Gerado automaticamente a partir dos arquivos enviados (Nutryon e Candidatos).
-
 
 ## 6) Camada MVC / Views & Layouts (Bootstrap)
 - Projeto **Nutryon.Web (MVC)** adicionado com:
