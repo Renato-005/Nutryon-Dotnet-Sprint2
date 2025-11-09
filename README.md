@@ -4,52 +4,55 @@
 ## Objetivo do Projeto
 O Nutryon é um app que ajuda você a planejar o que comer programando suas refeições por dia da semana e calcula automaticamente calorias e macronutrientes (proteínas, carboidratos e gorduras) a partir de um banco de ingredientes cadastrado.
 
-## Escopo
-- CRUD de **Usuário**.
-- **Refeições**: criação com itens e listagem por data/usuário.
-- **Migrações EF Core** com **seed** inicial (tipos de refeição, unidades, ingredientes).
-- **Validações** com FluentValidation e **tratamento de erros** em ProblemDetails.
+## 1) Camada Web – Web API / Minimal API
+- **Rotas de *Search*** com paginação, ordenação e filtros:
+  - `GET /api/usuarios/search?q=&page=1&pageSize=10&sortBy=NomeUsuario|Email&sortDir=asc|desc`
+  - `GET /api/usuarios/{idUsuario}/refeicoes/search?data=2025-06-10&page=1&pageSize=10`
+- **HATEOAS**: as respostas de busca retornam `_links.self`, `_links.next`, `_links.prev`.
 
-## Requisitos Funcionais
-- Cadastrar, atualizar, excluir e listar usuários.
-- Registrar refeição com pelo menos 1 item (quantidade > 0).
-- Consultar refeições por data para um usuário.
+## 2) Conexão com banco (Oracle – padrão *Candidatos*)
+- `appsettings.json` agora usa `ConnectionStrings:NutryonDb` com o formato:
+  ```json
+  "User Id=USUARIO;Password=SENHA;Data Source=oracle.fiap.com.br:1521/ORCL;"
+  ```
+- `Program.cs` foi refeito para `UseOracle(...)` e HealthChecks (`/health/live` e `/health/ready`).
 
-## Requisitos Não Funcionais
-- .NET 8, ASP.NET Core Web API.
-- Clean Architecture (Domain / Application / Infrastructure / Api).
-- EF Core com SQL Server LocalDB.
-- AutoMapper, FluentValidation, Swagger.
-
-## Arquitetura (Clean Architecture)
-- **Domain**: Entidades e portas (`IUsuarioRepository`, `IRefeicaoRepository`, `IUnitOfWork`).
-- **Application**: DTOs + **UseCases**; regras/validações; **MappingProfile**.
-- **Infrastructure**: EF Core (`DbContext`), repositórios concretos, **Migrations** + Seed.
-- **Api**: Controllers, Swagger, **ProblemDetails** middleware, DI.
-
-## Como rodar
-1. Abrir `Nutryon.sln` (VS 2022+). Definir `src/Nutryon.Api` como Startup Project.
-2. `F5` e acesse `/swagger`.
-
-### Exemplos
-**POST /api/usuarios**
-```json
-{ "nomeUsuario": "Renato", "email": "renato@example.com", "dtNasc": "2000-05-10" }
+## 3) Pacotes NuGet
+No diretório `src/Nutryon.Api` e `src/Nutryon.Infrastructure` execute:
+```bash
+dotnet restore
 ```
-**POST /api/usuarios/{idUsuario}/refeicoes**
-```json
-{
-  "idTipoRefeicao": 2,
-  "dtRef": "2025-01-15",
-  "observacao": "Almoço",
-  "itens": [
-    { "idIngrediente": 1, "qtde": 150, "idUnidade": 1 },
-    { "idIngrediente": 3, "qtde": 120, "idUnidade": 1 }
-  ]
-}
-```
-**GET /api/usuarios/{idUsuario}/refeicoes?data=2025-01-15**
+Os principais pacotes adicionados/substituídos:
+- `Oracle.EntityFrameworkCore` (substitui `Microsoft.EntityFrameworkCore.SqlServer`)
+- `AspNetCore.HealthChecks.Oracle` e `AspNetCore.HealthChecks.UI.Client`
+- `FluentValidation.AspNetCore` (já existia)
 
-## Observações
-- O seed inicial insere: Tipos (Café, Almoço, Jantar), Unidades (g, ml) e Ingredientes (Arroz, Feijão, Frango).
-- Caso deseje Oracle ou outro provider, basta trocar o `UseSqlServer` e os pacotes no projeto Infrastructure.
+## 4) Como rodar
+1. Configure o usuário e senha Oracle no `src/Nutryon.Api/appsettings.json` (padrão FIAP).
+2. Na raiz do repositório:
+   ```bash
+   dotnet build
+   dotnet run --project src/Nutryon.Api/Nutryon.Api.csproj
+   ```
+3. Acesse:
+   - `http://localhost:5184/swagger`
+   - `http://localhost:5184/health/ready`
+
+> **Observação**: como a estrutura de *Views MVC* não existia no projeto original, mantivemos a entrega no formato **Web API** com os itens exigidos (Search + HATEOAS + Controllers CRUD).
+## 5) Endpoints principais
+- `POST /api/usuarios`
+- `GET  /api/usuarios`
+- `GET  /api/usuarios/search`
+- `PUT  /api/usuarios/{id}`
+- `DELETE /api/usuarios/{id}`
+- `POST /api/usuarios/{idUsuario}/refeicoes`
+- `GET  /api/usuarios/{idUsuario}/refeicoes`
+- `GET  /api/usuarios/{idUsuario}/refeicoes/search`
+
+## 6) Camada MVC / Views & Layouts (Bootstrap)
+- Projeto **Nutryon.Web (MVC)** adicionado com:
+  - **Rotas padrão** (`{controller=Home}/{action=Index}/{id?}`) e páginas principais.
+  - **Rotas personalizadas** (links de navegação e controllers).
+  - **Layout principal (_Layout.cshtml)** com **Bootstrap** (navbar, container).
+  - **Views com validação** (DataAnnotations) e **ViewModels** para isolar a lógica.
+  - Telas implementadas: **Home**, **Usuários (Index, Create, Edit)** e **Refeições (Index, Create)**.
