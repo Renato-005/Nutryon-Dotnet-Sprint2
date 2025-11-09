@@ -1,0 +1,27 @@
+
+@model Nutryon.Web.ViewModels.RefeicaoVM
+@{
+    ViewData["Title"] = "Nova Refeição";
+}
+<h2>Nova Refeição</h2>
+<form asp-action="Create" method="post" class="row g-3">
+    <input type="hidden" asp-for="IdUsuario" />
+    <div class="col-md-4">
+        <label asp-for="IdTipoRefeicao" class="form-label"></label>
+        <input asp-for="IdTipoRefeicao" class="form-control" />
+        <span class="form-text">Informe o ID existente na tabela TipoRefeicao.</span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="DtRef" class="form-label"></label>
+        <input asp-for="DtRef" class="form-control" />
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Observacao" class="form-label"></label>
+        <input asp-for="Observacao" class="form-control" />
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary">Salvar</button>
+        <a class="btn btn-secondary" href="/Usuarios">Voltar</a>
+    </div>
+</form>
+@section Scripts{<partial name="_ValidationScriptsPartial" />}

@@ -1,0 +1,15 @@
+
+@model IEnumerable<object>
+@{
+    ViewData["Title"] = "Refeições";
+}
+<h2>Refeições (@ViewBag.Data)</h2>
+<a class="btn btn-success mb-3" href="/Refeicoes/Create?idUsuario=@ViewBag.IdUsuario">Nova Refeição</a>
+<table class="table table-striped">
+<thead><tr><th>Id</th><th>Data</th><th>Situação</th><th>Obs</th></tr></thead>
+<tbody>
+@foreach(dynamic r in Model){
+    <tr><td>@r.IdRefeicao</td><td>@r.DtRef</td><td>@r.Situacao</td><td>@r.Observacao</td></tr>
+}
+</tbody>
+</table>

@@ -1,0 +1,15 @@
+
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.6" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nutryon.Application\Nutryon.Application.csproj" />
+    <ProjectReference Include="..\Nutryon.Infrastructure\Nutryon.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

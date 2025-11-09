@@ -1,0 +1,27 @@
+
+@model Nutryon.Web.ViewModels.UsuarioVM
+@{
+    ViewData["Title"] = "Novo Usuário";
+}
+<h2>Novo Usuário</h2>
+<form asp-action="Create" method="post" class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="NomeUsuario" class="form-label"></label>
+        <input asp-for="NomeUsuario" class="form-control" />
+        <span asp-validation-for="NomeUsuario" class="text-danger"></span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="col-md-4">
+        <label asp-for="DtNasc" class="form-label"></label>
+        <input asp-for="DtNasc" class="form-control" />
+    </div>
+    <div class="col-12">
+        <button class="btn btn-primary">Salvar</button>
+        <a class="btn btn-secondary" href="/Usuarios">Voltar</a>
+    </div>
+</form>
+@section Scripts{<partial name="_ValidationScriptsPartial" />}
